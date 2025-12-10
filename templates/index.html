@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Flight Price Predictor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #4facfe, #00f2fe);
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 500px;
+            background: white;
+            margin: 50px auto;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            color: #333;
+        }
+
+        select, input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+        }
+
+        button {
+            width: 100%;
+            background-color: #4facfe;
+            color: white;
+            border: none;
+            padding: 12px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #00c6ff;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 12px;
+            background-color: #e8f9f1;
+            border-left: 5px solid #2ecc71;
+            border-radius: 8px;
+            font-weight: bold;
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        .error {
+            margin-top: 20px;
+            padding: 12px;
+            background-color: #fdecea;
+            border-left: 5px solid red;
+            border-radius: 8px;
+            font-weight: bold;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>✈️ Flight Price Prediction</h2>
+
+    <form action="/predict" method="post">
+
+        <label>Airline</label>
+        <select name="airline" required>
+            <option>Indigo</option>
+            <option>Air_India</option>
+            <option>Vistara</option>
+            <option>GO_FIRST</option>
+            <option>SpiceJet</option>
+            <option>AirAsia</option>
+        </select>
+
+        <label>Source City</label>
+        <select name="source_city" required>
+            <option>Delhi</option>
+            <option>Mumbai</option>
+            <option>Bangalore</option>
+            <option>Kolkata</option>
+            <option>Hyderabad</option>
+            <option>Chennai</option>
+        </select>
+
+        <label>Destination City</label>
+        <select name="destination_city" required>
+            <option>Delhi</option>
+            <option>Mumbai</option>
+            <option>Bangalore</option>
+            <option>Kolkata</option>
+            <option>Hyderabad</option>
+            <option>Chennai</option>
+        </select>
+
+        <label>Departure Time</label>
+        <select name="departure_time" required>
+            <option>Morning</option>
+            <option>Early_Morning</option>
+            <option>Afternoon</option>
+            <option>Evening</option>
+            <option>Night</option>
+            <option>Late_Night</option>
+        </select>
+
+        <label>Arrival Time</label>
+        <select name="arrival_time" required>
+            <option>Morning</option>
+            <option>Early_Morning</option>
+            <option>Afternoon</option>
+            <option>Evening</option>
+            <option>Night</option>
+            <option>Late_Night</option>
+        </select>
+
+        <label>Stops</label>
+        <select name="stops" required>
+            <option>zero</option>
+            <option>one</option>
+            <option>two_or_more</option>
+        </select>
+
+        <label>Class</label>
+        <select name="flight_class" required>
+            <option>Economy</option>
+            <option>Business</option>
+        </select>
+
+        <label>Duration (minutes)</label>
+        <input type="number" name="duration" required>
+
+        <label>Days Left</label>
+        <input type="number" name="days_left" required>
+
+        <button type="submit">🔍 Predict Price</button>
+    </form>
+
+    {% if result %}
+        <div class="result">
+            Predicted Price: ₹ {{ result }}
+        </div>
+    {% endif %}
+
+    {% if error %}
+        <div class="error">
+            Error: {{ error }}
+        </div>
+    {% endif %}
+</div>
+
+</body>
+</html>
