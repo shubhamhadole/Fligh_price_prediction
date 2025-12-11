@@ -5,11 +5,9 @@ import pandas as pd
 app = Flask(__name__)
 
 # Load model and scaler
-with open("flight_price_model.pkl", "rb") as f:
-    model = pickle.load(f)
+model = joblib.load("model/flight_price_model.pkl")
+scaler = joblib.load("model/scaler.pkl")
 
-with open("scaler.pkl", "rb") as f:
-    scaler = pickle.load(f)
 
 # Encoding maps (same as training)
 airline_map = {
