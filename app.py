@@ -1,15 +1,18 @@
 from flask import Flask, render_template, request
 import pickle
 import pandas as pd
+import os
 
 app = Flask(__name__)
 
 # Load model and scaler
-model = joblib.load("model/flight_price_model.pkl")
-scaler = joblib.load("model/scaler.pkl")
+with open("model/flight_price_model.pkl", "rb") as f:
+    model = pickle.load(f)
 
+with open("model/scaler.pkl", "rb") as f:
+    scaler = pickle.load(f)
 
-# Encoding maps (same as training)
+# Encoding maps
 airline_map = {
     "Vistara": 1,
     "Air_India": 2,
@@ -69,8 +72,4 @@ def predict():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
-
-
-import os
-app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
+    app.run(host="0.0.0.0", port=5000, debug=True)
