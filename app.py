@@ -5,21 +5,20 @@ import os
 
 app = Flask(__name__)
 
+# Base directory
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
 # Load model and scaler
-with open("model/flight_price_model.pkl", "rb") as f:
+with open(os.path.join(BASE_DIR, "model", "flight_price_model.pkl"), "rb") as f:
     model = pickle.load(f)
 
-with open("model/scaler.pkl", "rb") as f:
+with open(os.path.join(BASE_DIR, "model", "scaler.pkl"), "rb") as f:
     scaler = pickle.load(f)
 
 # Encoding maps
 airline_map = {
-    "Vistara": 1,
-    "Air_India": 2,
-    "Indigo": 3,
-    "GO_FIRST": 4,
-    "AirAsia": 5,
-    "SpiceJet": 6
+    "Vistara": 1, "Air_India": 2, "Indigo": 3,
+    "GO_FIRST": 4, "AirAsia": 5, "SpiceJet": 6
 }
 
 city_map = {
@@ -40,14 +39,19 @@ class_map = {
     "Economy": 1, "Business": 2
 }
 
-
 @app.route("/")
 def home():
     return render_template("index.html")
 
+@app.route("/health")
+def health():
+    return "OK"
 
-@app.route("/predict", methods=["POST"])
+@app.route("/predict", methods=["GET", "POST"])
 def predict():
+    if request.method == "GET":
+        return "Use POST method to get flight price prediction"
+
     try:
         data = {
             "airline": airline_map[request.form["airline"]],
@@ -69,7 +73,6 @@ def predict():
 
     except Exception as e:
         return render_template("index.html", error=str(e))
-
-
+    
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=False)
